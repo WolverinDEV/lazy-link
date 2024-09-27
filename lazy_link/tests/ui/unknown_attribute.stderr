@@ -1,0 +1,5 @@
+error: unknown attribute
+ --> tests/ui/unknown_attribute.rs:3:39
+  |
+3 | #[lazy_link(resolver = "my_resolver", unknown = "12")]
+  |                                       ^^^^^^^

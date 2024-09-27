@@ -1,0 +1,13 @@
+[package]
+name = "lazy_link"
+license-file.workspace = true
+authors.workspace = true
+repository.workspace = true
+edition.workspace = true
+version.workspace = true
+
+[dependencies]
+lazy_link_derive = { path = "../lazy_link_derive", version = "*" }
+
+[dev-dependencies]
+trybuild = "1.0.99"

@@ -1,0 +1,16 @@
+[workspace]
+resolver = "2"
+members = [
+    "lazy_link",
+    "lazy_link_derive",
+    "examples/windows-msgbox",
+    "examples/minimal",
+]
+
+[workspace.package]
+version = "0.1.0"
+edition = "2021"
+authors = ["Markus Hadenfeldt <mhadenfeldt@did.science>"]
+description = "lazy_link is a Rust proc macro for dynamic runtime lookup of external functions, supporting custom resolvers, caching and no_std environments."
+repository = "https://github.com/WolverinDEV/lazy-link"
+license-file = "LICENSE"
