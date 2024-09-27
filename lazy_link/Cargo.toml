@@ -8,7 +8,8 @@ version.workspace = true
 description.workspace = true
 
 [dependencies]
-lazy_link_derive = { path = "../lazy_link_derive", version = "*" }
+lazy_link_derive = { path = "../lazy_link_derive", version = "0.1" }
+obfstr = "0.4.3"
 
 [dev-dependencies]
 trybuild = "1.0.99"

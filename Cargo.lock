@@ -62,6 +62,7 @@ name = "lazy_link"
 version = "0.1.0"
 dependencies = [
  "lazy_link_derive",
+ "obfstr",
  "trybuild",
 ]
 
@@ -89,6 +90,12 @@ name = "memchr"
 version = "2.7.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "78ca9ab1a0babb1e7d5695e3530886289c18cf2f87ec19a575a0abdce112e3a3"
+
+[[package]]
+name = "obfstr"
+version = "0.4.3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "e3ba2979b86cc910a6d13837ef97fef0c6b68fa807c5e014d622449db18351dc"
 
 [[package]]
 name = "proc-macro2"
