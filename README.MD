@@ -1,4 +1,10 @@
-# lazy_link
+# lazy_link &emsp; [![Latest Version]][crates.io] [![License: GPL v3]](./LICENSE) [![GitHub build status]][actions]
+
+[License: GPL v3]: https://img.shields.io/badge/License-GPLv3-blue.svg
+[Latest Version]: https://img.shields.io/crates/v/lazy_link.svg
+[crates.io]: https://crates.io/crates/lazy_link
+[GitHub build status]: https://github.com/WolverinDEV/lazy-link/workflows/Rust/badge.svg?branch=master
+[actions]: https://github.com/WolverinDEV/lazy-link/actions?query=workflow%3ARust
 
 `lazy_link` is a Rust procedural macro crate that allows you to dynamically look up external functions at runtime without any additional boilerplate code.
 This crate is designed to simplify the process of dynamically linking to external functions as runtime, inclusing support for function name obfuscation and `no_std` environments.
