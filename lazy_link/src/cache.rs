@@ -4,15 +4,19 @@ use core::{
     sync::atomic::{AtomicBool, AtomicPtr, Ordering},
 };
 
+/// A trait representing different caching strategies for resolved function pointers.
+///
+/// This trait is implemented by various cache modes, including `"none"`, `"static"`, and `"static-atomic"`.
+/// Each implementation defines how the resolved function pointer is stored and accessed, with
+/// considerations for race conditions and performance.
 pub trait Cache {
     fn resolve(&self, _: impl FnOnce() -> NonNull<()>) -> NonNull<()>;
 }
 
-/// Implementation of the "static" cache mode.  
-///  
-/// This will cache the resolved function pointer in a static variable
-/// without any consideration of race conditions. This may result in the resolver being called
-/// multiple times.
+/// Implementation of the `"static"` cache mode.
+///
+/// This caches the resolved function pointer in a static variable without handling race conditions.
+/// As a result, the resolver may be called multiple times in concurrent scenarios.
 pub struct StaticCache {
     value: UnsafeCell<Option<NonNull<()>>>,
 }
@@ -36,11 +40,11 @@ impl Cache for StaticCache {
     }
 }
 
-/// Implementation of the "static-atomic" cache mode.  
-///  
-/// This will cache the resolved function pointer in an atomic variable
-/// with considerations regarding of race conditions. This ensures that the resolver will only
-/// be called once.
+/// Implementation of the `"static-atomic"` cache mode.
+///
+/// This caches the resolved function pointer in an atomic variable, addressing race conditions.
+/// This ensures that the resolver will be called only once, providing thread-safe access to the
+/// cached function pointer.
 pub struct StaticAtomicCache {
     value: AtomicPtr<()>,
     resolve_lock: AtomicBool,
@@ -79,6 +83,10 @@ impl Cache for StaticAtomicCache {
     }
 }
 
+/// Do not cache the resolved value.
+///
+/// The resolver will be called every time the function is accessed,
+/// ensuring the most current value is retrieved without any caching.
 pub struct NoCache;
 
 impl NoCache {
