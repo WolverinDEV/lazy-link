@@ -6,13 +6,13 @@ use std::{
 use lazy_link::lazy_link;
 use libloading::Library;
 
-#[lazy_link(module = "User32.dll", resolver = "win32_resolve")]
+#[lazy_link(module = "User32.dll", resolver = "win32_resolve", obfuscate = true)]
 extern "C" {
     #[allow(non_snake_case)]
     fn MessageBoxA(hWnd: u32, lpText: *const c_char, lpCaption: *const c_char, uType: u32) -> u8;
 }
 
-unsafe fn win32_resolve(module: Option<&'static str>, name: &'static str) -> NonNull<()> {
+unsafe fn win32_resolve(module: Option<&str>, name: &str) -> NonNull<()> {
     let module = module.expect("a module to be specified");
     let library = Library::new(module).expect("failed to load target library");
 

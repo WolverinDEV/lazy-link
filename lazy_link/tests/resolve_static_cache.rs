@@ -5,7 +5,7 @@ use std::{
 
 use lazy_link::lazy_link;
 
-#[lazy_link(resolver = "my_resolver", cache = "static")]
+#[lazy_link(resolver = "my_resolver", cache = "static", obfuscate = false)]
 extern "C" {
     fn method_01();
     fn method_02();

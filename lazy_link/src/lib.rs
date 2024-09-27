@@ -8,3 +8,4 @@ pub use cache::{
     StaticCache,
 };
 pub use lazy_link_derive::lazy_link;
+pub use obfstr::obfstr;

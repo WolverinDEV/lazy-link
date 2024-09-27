@@ -61,6 +61,7 @@ struct MacroArgs {
     resolver: Path,
     cache: CacheMode,
     module: Option<LitStr>,
+    obfuscate: bool,
 }
 
 impl Parse for MacroArgs {
@@ -71,6 +72,7 @@ impl Parse for MacroArgs {
         let mut resolver = None;
         let mut cache = None;
         let mut module = None;
+        let mut obfuscate = true;
 
         for kv in &vars {
             if kv.path.is_ident("resolver") {
@@ -91,6 +93,12 @@ impl Parse for MacroArgs {
                 };
 
                 module = Some(value.clone());
+            } else if kv.path.is_ident("obfuscate") {
+                let Lit::Bool(value) = &kv.lit else {
+                    return Err(Error::new(kv.lit.span(), "expected a boolean"));
+                };
+
+                obfuscate = value.value;
             } else {
                 return Err(Error::new(kv.path.span(), "unknown attribute"));
             }
@@ -103,6 +111,7 @@ impl Parse for MacroArgs {
             ))?,
             cache: cache.unwrap_or(CacheMode::Static),
             module,
+            obfuscate,
         })
     }
 }
@@ -136,11 +145,23 @@ fn process_external_function(
     abi: &Abi,
     function: ForeignItemFn,
 ) -> Result<TokenStream> {
-    let fn_name_str = function.sig.ident.to_string();
+    let fn_name = function.sig.ident.to_string();
+    let fn_name = if args.obfuscate {
+        quote! { lazy_link::obfstr!(#fn_name) }
+    } else {
+        quote! { #fn_name }
+    };
+
     let fn_inputs = &function.sig.inputs;
     let fn_output = &function.sig.output;
 
     let module = if let Some(module) = &args.module {
+        let module = if args.obfuscate {
+            quote! { lazy_link::obfstr!(#module) }
+        } else {
+            quote! { #module }
+        };
+
         quote! { Some(#module) }
     } else {
         quote! { None }
@@ -171,7 +192,7 @@ fn process_external_function(
         type TargetFn = #abi fn(#fn_inputs) #fn_output;
         static CACHE: #cache = #cache ::new();
 
-        let fn_ptr = CACHE.resolve(|| (#resolver)(#module, #fn_name_str));
+        let fn_ptr = CACHE.resolve(|| (#resolver)(#module, #fn_name));
         let target_fn: TargetFn = core::mem::transmute(fn_ptr.as_ptr());
         (target_fn)(#(#fn_args),*)
     }};

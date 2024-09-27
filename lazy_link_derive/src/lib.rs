@@ -14,6 +14,9 @@ mod macro_lazy_link;
 ///   Provide a value for the `module` parameter in the resolver function. This can be useful for
 ///   grouping or identifying external functions in different modules.
 ///
+/// - `obfuscate = false`  
+///   Disable the obfuscate of the function and module names.
+///
 /// - `cache = "none" | "static" | "static-atomic"`  
 ///   Specify if and how the resolved values should be cached:
 ///   - `"none"`: No caching, the function is resolved every time it is called.

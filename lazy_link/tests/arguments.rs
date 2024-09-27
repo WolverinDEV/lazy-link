@@ -28,7 +28,7 @@ extern "C" fn fallback_impl_02(arg1: u8, arg2: u8) {
 static IMPL_01_CALLED: AtomicBool = AtomicBool::new(false);
 static IMPL_02_CALLED: AtomicBool = AtomicBool::new(false);
 
-fn my_resolver(_module: Option<&'static str>, name: &'static str) -> NonNull<()> {
+fn my_resolver(_module: Option<&str>, name: &str) -> NonNull<()> {
     NonNull::new(match name {
         "method_01" => fallback_impl_01 as *mut (),
         "method_02" => fallback_impl_02 as *mut (),

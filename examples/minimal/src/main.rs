@@ -11,7 +11,7 @@ extern "C" fn impl_external_add(v1: u8, v2: u8) -> u8 {
     v1.wrapping_add(v2)
 }
 
-fn resolve_externals(_module: Option<&'static str>, name: &'static str) -> NonNull<()> {
+fn resolve_externals(_module: Option<&str>, name: &str) -> NonNull<()> {
     assert_eq!(name, "external_add");
 
     NonNull::new(impl_external_add as *mut ()).unwrap()
