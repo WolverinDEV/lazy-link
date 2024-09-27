@@ -1,5 +1,6 @@
 [package]
 name = "example-windows"
+publish = false
 license-file.workspace = true
 authors.workspace = true
 repository.workspace = true
