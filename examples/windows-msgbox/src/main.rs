@@ -1,4 +1,7 @@
-use std::{ffi::c_char, ptr::NonNull};
+use std::{
+    ffi::c_char,
+    ptr::NonNull,
+};
 
 use lazy_link::lazy_link;
 use libloading::Library;
@@ -16,7 +19,7 @@ unsafe fn win32_resolve(module: Option<&'static str>, name: &'static str) -> Non
     let symbol_cname = format!("{}\0", name);
     let symbol = library
         .get::<*mut ()>(symbol_cname.as_bytes())
-        .expect(&format!("could not resolve symbol {}", symbol_cname));
+        .unwrap_or_else(|_| panic!("could not resolve symbol {}", symbol_cname));
 
     NonNull::new_unchecked(symbol.try_as_raw_ptr().unwrap() as *mut ())
 }
@@ -25,8 +28,8 @@ fn main() {
     unsafe {
         MessageBoxA(
             0,
-            "Dummy content\0".as_ptr() as *const c_char,
-            "Lazy imports :)\0".as_ptr() as *const c_char,
+            c"Dummy content".as_ptr(),
+            c"Lazy imports :)".as_ptr(),
             0x00,
         );
     }

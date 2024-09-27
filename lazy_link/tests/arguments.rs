@@ -1,8 +1,12 @@
-use lazy_link::lazy_link;
 use std::{
     ptr::NonNull,
-    sync::atomic::{AtomicBool, Ordering},
+    sync::atomic::{
+        AtomicBool,
+        Ordering,
+    },
 };
+
+use lazy_link::lazy_link;
 
 #[lazy_link(resolver = "my_resolver")]
 extern "C" {

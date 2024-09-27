@@ -1,12 +1,33 @@
 use proc_macro2::TokenStream;
-use quote::{quote, ToTokens};
+use quote::{
+    quote,
+    ToTokens,
+};
 use syn::{
-    parse::{Parse, ParseStream},
-    parse2, parse_quote, parse_str,
+    parse::{
+        Parse,
+        ParseStream,
+    },
+    parse2,
+    parse_quote,
+    parse_str,
     punctuated::Punctuated,
     spanned::Spanned,
-    Abi, Error, FnArg, ForeignItem, ForeignItemFn, ItemFn, ItemForeignMod, Lit, LitStr,
-    MetaNameValue, Pat, Path, Result, Signature, Token,
+    Abi,
+    Error,
+    FnArg,
+    ForeignItem,
+    ForeignItemFn,
+    ItemFn,
+    ItemForeignMod,
+    Lit,
+    LitStr,
+    MetaNameValue,
+    Pat,
+    Path,
+    Result,
+    Signature,
+    Token,
 };
 
 #[derive(Debug)]

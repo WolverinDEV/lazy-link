@@ -1,7 +1,14 @@
 use core::{
     cell::UnsafeCell,
-    ptr::{self, NonNull},
-    sync::atomic::{AtomicBool, AtomicPtr, Ordering},
+    ptr::{
+        self,
+        NonNull,
+    },
+    sync::atomic::{
+        AtomicBool,
+        AtomicPtr,
+        Ordering,
+    },
 };
 
 /// A trait representing different caching strategies for resolved function pointers.
@@ -33,10 +40,16 @@ impl StaticCache {
     }
 }
 
+impl Default for StaticCache {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl Cache for StaticCache {
     fn resolve(&self, resolver: impl FnOnce() -> NonNull<()>) -> NonNull<()> {
         let value = unsafe { &mut *self.value.get() };
-        value.get_or_insert_with(resolver).clone()
+        *value.get_or_insert_with(resolver)
     }
 }
 
@@ -56,6 +69,12 @@ impl StaticAtomicCache {
             value: AtomicPtr::new(ptr::null_mut()),
             resolve_lock: AtomicBool::new(false),
         }
+    }
+}
+
+impl Default for StaticAtomicCache {
+    fn default() -> Self {
+        Self::new()
     }
 }
 
@@ -92,6 +111,12 @@ pub struct NoCache;
 impl NoCache {
     pub const fn new() -> Self {
         Self
+    }
+}
+
+impl Default for NoCache {
+    fn default() -> Self {
+        Self::new()
     }
 }
 

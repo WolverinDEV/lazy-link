@@ -1,5 +1,9 @@
+use std::{
+    ptr::NonNull,
+    sync::Mutex,
+};
+
 use lazy_link::lazy_link;
-use std::{ptr::NonNull, sync::Mutex};
 
 #[lazy_link(resolver = "my_resolver", module = "hello_module")]
 extern "C" {
